@@ -1,0 +1,19 @@
+{
+  "name": "sex",
+  "version": "1.0.0",
+  "description": "Hot & sex",
+  "main": "spaghetti.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rushing2meta/spaghetti.js.git"
+  },
+  "author": "Arctic Hawk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rushing2meta/spaghetti.js/issues"
+  },
+  "homepage": "https://github.com/rushing2meta/spaghetti.js#readme"
+}
