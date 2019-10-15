@@ -1,5 +1,5 @@
 {
-  "name": "sex",
+  "name": "@rushing2meta/spaghetti",
   "version": "1.0.0",
   "description": "Hot & sex",
   "main": "spaghetti.js",
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/rushing2meta/spaghetti.js.git"
   },
   "author": "Arctic Hawk",
-  "license": "ISC",
+  "license": "AGPL-3.0",
   "bugs": {
     "url": "https://github.com/rushing2meta/spaghetti.js/issues"
   },
