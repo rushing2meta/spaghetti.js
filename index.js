@@ -14,4 +14,4 @@ client.on("room.message", (roomId, e) => {
 
 
 client.start()
-console.log("bot started");
+console.log("Bot started");
