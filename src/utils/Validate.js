@@ -38,7 +38,7 @@ module.exports = {
     this.checkArray(val);
 
     for (const elem in val)
-      checkString(elem);
+      this.checkString(elem);
   },
 
   checkLength(val, what) {

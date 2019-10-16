@@ -41,7 +41,7 @@ class Client {
 	
 
   registerCommands(commands) {
-	  console.log(commands)
+	  
     Validate.checkArrayType(commands, Command);
 
     for (let i = 0; i < commands.length; i++) {
@@ -76,10 +76,15 @@ class Client {
       return;
 
     const lowered = body.toLowerCase().slice(this.prefix.length);
-    for (const cmd of this.commands) {
-      if (lowered.startsWith(cmd.name))
+    for(let i = this.commands.length - 1; i > -1; i--){
+      const cmd = this.commands[i];	    
+      let commandName;
+      cmd.names.some(name =>{
+	     if( lowered.startsWith(name)) commandName = name;
+      });
+      if (commandName)
         cmd.run({
-		content: body,
+			content: body.slice(commandName.length + this.prefix.length),
 		room: {
 			sendMessage: (message) => {
 				this.send(roomId, 'm.text', message)

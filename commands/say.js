@@ -1,13 +1,16 @@
 const Command = require("../src/Command.js");
-class say extends Command{
+class Say extends Command{
 	constructor(){
+		
 		super({
-			names: ["say", "repeat"],
+			names: ["say", "repeat"]
 	        });
-		      
+	console.log(this.names);	
 	 }
 	 run(message){
-		 message.room.sendMessage(message.body.split(" ").pop().join);
+		 
+		 console.log(message.content.split(" ").slice(1, -1))
+		 message.room.sendMessage(message.content);
 	 }
 }
-
+module.exports =  new Say();

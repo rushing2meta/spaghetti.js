@@ -3,10 +3,15 @@ const config = require("./config.json");
 
 const client = new Client(config);
 
-client.registerCommandDir("./commands");
+//client.registerCommandDir("/commands");
+const say = require("./commands/say.js");
+client.commands.push(say);
+console.log(say.names);
 
 client.on("room.message", (roomId, e) => {
-	client.checkCommand(rooomId, e);
-	console.log("a message");
+	client.checkCommand(roomId, e);
 });
 
+
+client.start()
+console.log("bot started");
