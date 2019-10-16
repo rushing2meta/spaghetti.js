@@ -1,4 +1,4 @@
-const Validate = require('../Validate.js');
+const Validate = require('./utils/Validate.js');
 
 // TODO: argument class, and argument validation
 class Command {
@@ -10,4 +10,4 @@ class Command {
   }
 }
 
-module.exports = Command;
+module.exports = Command

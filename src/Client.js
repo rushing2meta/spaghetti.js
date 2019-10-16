@@ -1,26 +1,47 @@
 const Command = require('./Command.js');
 const Validate = require('./utils/Validate.js');
-const RequireAll = require('./utils/RequireAll.js');
-
-class Bot {
+const RequireAll = require("./utils/RequireAll");
+const { MatrixClient, 
+	SimpleFsStorageProvider
+}	= require("matrix-bot-sdk");
+class Client {
   constructor(options) {
     Validate.checkDefined(options, 'options');
     Validate.checkString(options.token);
-    Validate.checkString(options.homeserver);
+    Validate.checkString(options.homeServer);
     Validate.checkString(options.prefix);
+   // Validate.checkString(options.storage);
 
-    // TODO: actually use the token and stuff to login
+    // TODO: check storage
+    this.storage = options.storagel || new SimpleFsStorageProvider("../storage.json");
     this.token = options.token;
-    this.homeserver = options.homeserver;
+    this.homeServer = options.homeServer;
+    this.client = new MatrixClient(this.homeServer, this.token, this.storage);	  
     this.prefix = options.prefix;
     this.commands = [];
-  }
 
-  registerCommandDir(dir) {
-    registerCommands(RequireAll(dir));
+
   }
+  on(eventName, callBack){
+    this.client.on(eventName, (roomId, event) => callBack(roomId, event))	
+  }
+  start(){
+    this.client.start()
+  }
+  send(roomId, msgtype, body){
+    this.client.sendMessage(roomId, {
+      msgtype: msgtype,
+      body: body,
+    });	
+  }	  
+  async registerCommandDir(dir) {
+   
+	  this.registerCommands(await RequireAll(dir));
+  }
+	
 
   registerCommands(commands) {
+	  console.log(commands)
     Validate.checkArrayType(commands, Command);
 
     for (let i = 0; i < commands.length; i++) {
@@ -42,15 +63,13 @@ class Bot {
   }
 
   // TODO: .on() method that handles messages and does all the good checks
-  async handleEvent(roomId, event) {
+  async checkCommand(roomId, event) {
     if (!event['content'])
       return;
 
     if (event['content']['msgtype'] !== 'm.text')
       return;
 
-    if (event['sender'] === await this.client.getUserId())
-      return;
 
     const body = event['content']['body'];
     if (!body || !body.startsWith(this.prefix))
@@ -59,9 +78,19 @@ class Bot {
     const lowered = body.toLowerCase().slice(this.prefix.length);
     for (const cmd of this.commands) {
       if (lowered.startsWith(cmd.name))
-        cmd.run(this.client, roomId, body);
+        cmd.run({
+		content: body,
+		room: {
+			sendMessage: (message) => {
+				this.send(roomId, 'm.text', message)
+			},
+			id: roomId
+		},
+		author: event.sender
+
+	});
     }
   }
 }
 
-module.exports = Bot;
+module.exports = Client;
