@@ -1,12 +1,12 @@
+const Validate = require('../Validate.js');
+
+// TODO: argument class, and argument validation
 class Command {
   constructor(options) {
-    if (options == null)
-      throw Error('Invalid command options.');
-
-    if (typeof(options.name) !== 'string')
-      throw Error('Invalid command name.');
-
-    this.name = options.name;
+    Validate.checkDefined(options, 'options');
+    Validate.checkArrayString(options.names);
+    Validate.checkLength(options.names, 'names');
+    // TODO: check to make sure all names are all lowercase?
   }
 }
 
