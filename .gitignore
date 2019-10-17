@@ -2,3 +2,5 @@
 node_modules/
 *.swp
 config.json
+commands/
+index.js

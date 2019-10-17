@@ -1,7 +1,7 @@
 const Command = require('./Command.js');
 const Validate = require('./utils/Validate.js');
 const RequireAll = require("./utils/RequireAll");
-const { MatrixClient, 
+const { MatrixClient,
 	SimpleFsStorageProvider
 }	= require("matrix-bot-sdk");
 class Client {
@@ -16,14 +16,14 @@ class Client {
     this.storage = options.storagel || new SimpleFsStorageProvider("../storage.json");
     this.token = options.token;
     this.homeServer = options.homeServer;
-    this.client = new MatrixClient(this.homeServer, this.token, this.storage);	  
+    this.client = new MatrixClient(this.homeServer, this.token, this.storage);
     this.prefix = options.prefix;
     this.commands = [];
 
 
   }
   on(eventName, callBack){
-    this.client.on(eventName, (roomId, event) => callBack(roomId, event))	
+    this.client.on(eventName, (roomId, event) => callBack(roomId, event))
   }
   start(){
     this.client.start()
@@ -32,16 +32,16 @@ class Client {
     this.client.sendMessage(roomId, {
       msgtype: msgtype,
       body: body,
-    });	
-  }	  
+    });
+  }
   async registerCommandDir(dir) {
-   
+
 	  this.registerCommands(await RequireAll(dir));
   }
-	
+
 
   registerCommands(commands) {
-	  
+
     Validate.checkArrayType(commands, Command);
 
     for (let i = 0; i < commands.length; i++) {
@@ -76,8 +76,8 @@ class Client {
       return;
 
     const lowered = body.toLowerCase().slice(this.prefix.length);
-    for(let i = this.commands.length - 1; i > -1; i--){
-      const cmd = this.commands[i];	    
+    for(cmd of this.commands){
+
       let commandName;
       cmd.names.some(name =>{
 	     if( lowered.startsWith(name)) commandName = name;
