@@ -22,7 +22,6 @@ class Client {
     this.prefix = options.prefix;
     this.commands = [];
 
-
   }
 
   on(eventName, callBack) {
