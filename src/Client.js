@@ -5,6 +5,7 @@ const {
   MatrixClient,
   SimpleFsStorageProvider
 } = require("matrix-bot-sdk");
+
 class Client {
   constructor(options) {
     Validate.checkDefined(options, 'options');
@@ -23,23 +24,26 @@ class Client {
 
 
   }
+
   on(eventName, callBack) {
     this.client.on(eventName, (roomId, event) => callBack(roomId, event))
   }
+
   start() {
     this.client.start()
   }
+
   send(roomId, msgtype, body) {
     this.client.sendMessage(roomId, {
       msgtype: msgtype,
       body: body,
     });
   }
+
   async registerCommandDir(dir) {
 
     this.registerCommands(await RequireAll(dir));
   }
-
 
   registerCommands(commands) {
 
