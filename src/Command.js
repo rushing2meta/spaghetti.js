@@ -6,11 +6,11 @@ class Command {
     Validate.checkDefined(options, 'options');
     Validate.checkArrayString(options.names);
     Validate.checkLength(options.names, 'names');
-    
+
     this.names = options.names;
-    	  
+
     // TODO: check to make sure all names are all lowercase?
   }
 }
 
-module.exports = Command
+module.exports = Command;

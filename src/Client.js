@@ -1,16 +1,17 @@
 const Command = require('./Command.js');
 const Validate = require('./utils/Validate.js');
 const RequireAll = require("./utils/RequireAll");
-const { MatrixClient,
-	SimpleFsStorageProvider
-}	= require("matrix-bot-sdk");
+const {
+  MatrixClient,
+  SimpleFsStorageProvider
+} = require("matrix-bot-sdk");
 class Client {
   constructor(options) {
     Validate.checkDefined(options, 'options');
     Validate.checkString(options.token);
     Validate.checkString(options.homeServer);
     Validate.checkString(options.prefix);
-   // Validate.checkString(options.storage);
+    // Validate.checkString(options.storage);
 
     // TODO: check storage
     this.storage = options.storagel || new SimpleFsStorageProvider("../storage.json");
@@ -22,13 +23,13 @@ class Client {
 
 
   }
-  on(eventName, callBack){
+  on(eventName, callBack) {
     this.client.on(eventName, (roomId, event) => callBack(roomId, event))
   }
-  start(){
+  start() {
     this.client.start()
   }
-  send(roomId, msgtype, body){
+  send(roomId, msgtype, body) {
     this.client.sendMessage(roomId, {
       msgtype: msgtype,
       body: body,
@@ -36,7 +37,7 @@ class Client {
   }
   async registerCommandDir(dir) {
 
-	  this.registerCommands(await RequireAll(dir));
+    this.registerCommands(await RequireAll(dir));
   }
 
 
@@ -76,24 +77,24 @@ class Client {
       return;
 
     const lowered = body.toLowerCase().slice(this.prefix.length);
-    for(cmd of this.commands){
+    for (let cmd of this.commands) {
 
       let commandName;
-      cmd.names.some(name =>{
-	     if( lowered.startsWith(name)) commandName = name;
+      cmd.names.some(name => {
+        if (lowered.startsWith(name)) commandName = name;
       });
       if (commandName)
         cmd.run({
-			content: body.slice(commandName.length + this.prefix.length),
-		room: {
-			sendMessage: (message) => {
-				this.send(roomId, 'm.text', message)
-			},
-			id: roomId
-		},
-		author: event.sender
+          content: body.slice(commandName.length + this.prefix.length),
+          room: {
+            sendMessage: (message) => {
+              this.send(roomId, 'm.text', message)
+            },
+            id: roomId
+          },
+          author: event.sender
 
-	});
+        });
     }
   }
 }
