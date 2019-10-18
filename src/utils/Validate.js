@@ -28,17 +28,17 @@ module.exports = {
   },
 
   checkArrayType(val, ctor) {
-    checkArray(val);
+    this.checkArray(val);
 
     for (const elem in val)
-      checkType(elem, ctor);
+      this.checkType(elem, ctor);
   },
 
   checkArrayString(val) {
-    checkArray(val);
+    this.checkArray(val);
 
     for (const elem in val)
-      checkString(elem);
+      this.checkString(elem);
   },
 
   checkLength(val, what) {

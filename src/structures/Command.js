@@ -1,4 +1,4 @@
-const Validate = require('../Validate.js');
+const Validate = require('../utils/Validate.js');
 
 // TODO: argument class, and argument validation
 class Command {
@@ -6,6 +6,9 @@ class Command {
     Validate.checkDefined(options, 'options');
     Validate.checkArrayString(options.names);
     Validate.checkLength(options.names, 'names');
+
+    this.names = options.names;
+
     // TODO: check to make sure all names are all lowercase?
   }
 }

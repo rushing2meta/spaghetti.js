@@ -4,6 +4,8 @@ const lStat = util.promisify(fs.lstat);
 const readDir = util.promisify(fs.readdir);
 
 async function RequireAll(path) {
+  console.log(__dirname);
+
   const files = await readDir(path);
   const modules = [];
 
