@@ -1,4 +1,4 @@
-const Validate = require('./utils/Validate.js');
+const Validate = require('../utils/Validate.js');
 
 class Argument {
   constructor(options){

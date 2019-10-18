@@ -1,4 +1,4 @@
-const ArgumentDefault = require("./enums/ArgumentDefualt.js");
+const ArgumentDefault = require("../enums/ArgumentDefualt.js");
 
 class Handler {
 
@@ -71,7 +71,7 @@ class Handler {
     }
     return {
       run: command.run,
-      argumentsSet: this.checkAllArgumentsSet(args);
+      argumentsSet: this.checkAllArgumentsSet(args)
     }
   }
 
@@ -121,5 +121,5 @@ class Handler {
         "Handler: The argument regex must be a regular expression."
       );
     }
-
+  }
 }

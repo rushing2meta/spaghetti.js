@@ -1,7 +1,7 @@
-const Command = require('./Command.js');
+const Command = require('./structures/Command.js');
 const Validate = require('./utils/Validate.js');
 const RequireAll = require("./utils/RequireAll");
-const Room = require("./Room.js");
+const Room = require("./structures/Room.js");
 
 const {
   MatrixClient,

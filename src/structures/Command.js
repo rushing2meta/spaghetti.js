@@ -1,4 +1,4 @@
-const Validate = require('./utils/Validate.js');
+const Validate = require('../utils/Validate.js');
 
 // TODO: argument class, and argument validation
 class Command {
