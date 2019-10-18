@@ -1,6 +1,8 @@
 const Command = require('./Command.js');
 const Validate = require('./utils/Validate.js');
 const RequireAll = require("./utils/RequireAll");
+const Room = require("./Room.js");
+
 const {
   MatrixClient,
   SimpleFsStorageProvider
@@ -21,6 +23,9 @@ class Client {
     this.client = new MatrixClient(this.homeServer, this.token, this.storage);
     this.prefix = options.prefix;
     this.commands = [];
+    this.handler = new Handler({
+      commands: this.commands
+    });
 
   }
 
@@ -32,12 +37,6 @@ class Client {
     this.client.start()
   }
 
-  send(roomId, msgtype, body) {
-    this.client.sendMessage(roomId, {
-      msgtype: msgtype,
-      body: body,
-    });
-  }
 
   async registerCommandDir(dir) {
 
@@ -47,7 +46,7 @@ class Client {
   registerCommands(commands) {
 
     Validate.checkArrayType(commands, Command);
-
+    console.log("are there commands?", commands);
     for (let i = 0; i < commands.length; i++) {
       const cmd = commands[i];
 
@@ -66,39 +65,23 @@ class Client {
     return this;
   }
 
-  // TODO: .on() method that handles messages and does all the good checks
   async checkCommand(roomId, event) {
-    if (!event['content'])
-      return;
+    if (!event.content) return;
 
-    if (event['content']['msgtype'] !== 'm.text')
-      return;
+    const content = event.content;
+    if (content.msgtype !== 'm.text') return;
 
-
-    const body = event['content']['body'];
-    if (!body || !body.startsWith(this.prefix))
-      return;
+    const body = content.body;
+    if (!body || !body.startsWith(this.prefix)) return;
 
     const lowered = body.toLowerCase().slice(this.prefix.length);
-    for (let cmd of this.commands) {
 
-      let commandName;
-      cmd.names.some(name => {
-        if (lowered.startsWith(name)) commandName = name;
-      });
-      if (commandName)
-        cmd.run({
-          content: body.slice(commandName.length + this.prefix.length),
-          room: {
-            sendMessage: (message) => {
-              this.send(roomId, 'm.text', message)
-            },
-            id: roomId
-          },
-          author: event.sender
+    this.handler.run({
+       content: body.slice(commandName.length + this.prefix.length),
+       room: new Room(),
+       author: event.sender
+    });
 
-        });
-    }
   }
 }
 
