@@ -5,4 +5,6 @@ TODO:
 - Most of the shit from patron.js
 - Some shit from discord.js
 - Easier more user-friendly usage of Matrix API, hide the ooogly stuff
+- FIX EVERY BUG OFC
 - HEAVY VALIDATION. Everything you can validate at bot start, DO IT!
+
